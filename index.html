@@ -1,51 +1,110 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-<title> Bike booking page </title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bike Booking Page</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
+/* BODY */
 body{
-font-family:Arial;
-background:#f4f4f4;
+font-family:'Segoe UI', sans-serif;
+margin:0;
+padding:0;
+background: linear-gradient(135deg, #1e3c72, #2a5298);
+min-height:100vh;
+color:white;
+
+/* PAGE LOAD ANIMATION */
+opacity:0;
+animation:fadeIn 1s ease-in forwards;
 }
 
+@keyframes fadeIn{
+to{opacity:1;}
+}
+
+/* DATE TIME */
+.datetime{
+position:fixed;
+top:10px;
+right:15px;
+font-size:13px;
+background:rgba(0,0,0,0.3);
+padding:6px 10px;
+border-radius:8px;
+z-index:999;
+}
+
+/* FORM CONTAINER */
 .container{
-width:500px;
-margin:auto;
-background:white;
-padding:20px;
-margin-top:30px;
-border-radius:10px;
-box-shadow:0 0 10px gray;
+width:90%;
+max-width:450px;
+margin:80px auto;
+background: rgba(255,255,255,0.12);
+padding:25px;
+border-radius:20px;
+backdrop-filter: blur(12px);
+box-shadow:0 8px 25px rgba(0,0,0,0.3);
+animation:slideUp 1s ease;
 }
 
+@keyframes slideUp{
+from{transform:translateY(50px); opacity:0;}
+to{transform:translateY(0); opacity:1;}
+}
+
+/* HEADING */
 h2{
 text-align:center;
+margin-bottom:20px;
+animation:zoomIn 1s ease;
 }
 
+@keyframes zoomIn{
+from{transform:scale(0.5); opacity:0;}
+to{transform:scale(1); opacity:1;}
+}
+
+/* INPUT FIELDS */
 input,select{
 width:100%;
-padding:8px;
+padding:10px;
 margin-top:5px;
 margin-bottom:15px;
+border:none;
+border-radius:10px;
+outline:none;
+font-size:14px;
 }
 
+/* BUTTON */
 button{
 width:100%;
-padding:12px;
-background:#007bff;
+padding:14px;
+background:#ff4b2b;
 color:white;
 border:none;
 font-size:16px;
 cursor:pointer;
-border-radius:5px;
+border-radius:12px;
+transition:0.3s;
+font-weight:bold;
 }
 
+/* HOVER */
 button:hover{
-background:#0056b3;
+background:white;
+color:#ff4b2b;
+transform:scale(1.05);
+}
+
+/* MOBILE RESPONSIVE */
+@media(max-width:500px){
+.container{
+margin:60px 15px;
+}
 }
 
 </style>
@@ -53,34 +112,37 @@ background:#0056b3;
 
 <body>
 
+<!-- DATE TIME -->
+<div class="datetime" id="datetime">Loading...</div>
+
 <div class="container">
 
-<h2>Passenger details </h2>
+<h2>Passenger Details</h2>
 
 <form id="jobForm">
 
-<label> Customer Name </label>
+<label>Customer Name</label>
 <input type="text" name="name" required>
 
-<label>Phone number </label>
+<label>Phone Number</label>
 <input type="text" name="father" required>
 
-<label> Pikup point   </label>
+<label>Pickup Point</label>
 <input type="text" name="mother">
 
-<label>Drop off </label>
+<label>Drop Off</label>
 <input type="text" name="phone" required>
-<label>  Booking Date  </label>
+
+<label>Booking Date</label>
 <input type="date" name="dob">
-  
 
-<label>  vehicle type  </label>
-
+<label>Vehicle Type</label>
 <select name="qualification">
-<option>   Auto/ Tempo </option>
-<option>Battery/E-Rickshaw/</option>
+<option>Auto / Tempo</option>
+<option>Battery / E-Rickshaw</option>
 </select>
-<button type="submit">Submit Application</button>
+
+<button type="submit">Submit Booking</button>
 
 </form>
 
@@ -88,12 +150,25 @@ background:#0056b3;
 
 <script>
 
+/* DATE TIME FUNCTION */
+function updateTime(){
+let now = new Date();
+let date = now.toLocaleDateString();
+let time = now.toLocaleTimeString();
+document.getElementById("datetime").innerHTML = date + " | " + time;
+}
+
+/* RUN IMMEDIATELY + LOOP */
+updateTime();
+setInterval(updateTime,1000);
+
+
+/* FORM SUBMIT */
 const scriptURL="https://script.google.com/macros/s/AKfycbyTMyosGRCbiOeI6OX1sepijsMkGzCHAASsylLUFWWQlSST4pEde055gER7_M0wbXDV/exec";
 
 const form=document.getElementById("jobForm");
 
 form.addEventListener("submit",e=>{
-
 e.preventDefault();
 
 let formData=new FormData(form);
@@ -102,21 +177,14 @@ fetch(scriptURL,{
 method:"POST",
 body:formData
 })
-
 .then(res=>res.text())
 .then(data=>{
-
-alert("Application Submitted Successfully");
-
+alert("Booking Submitted Successfully 🚀");
 form.reset();
-
 })
 .catch(error=>{
-
 alert("Submission Error");
-
 console.log(error);
-
 });
 
 });
