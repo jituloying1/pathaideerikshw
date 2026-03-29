@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title> Bike booking page </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+}
+
+.container{
+width:500px;
+margin:auto;
+background:white;
+padding:20px;
+margin-top:30px;
+border-radius:10px;
+box-shadow:0 0 10px gray;
+}
+
+h2{
+text-align:center;
+}
+
+input,select{
+width:100%;
+padding:8px;
+margin-top:5px;
+margin-bottom:15px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#007bff;
+color:white;
+border:none;
+font-size:16px;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Passenger details </h2>
+
+<form id="jobForm">
+
+<label> Customer Name </label>
+<input type="text" name="name" required>
+
+<label>Phone number </label>
+<input type="text" name="father" required>
+
+<label> Pikup point   </label>
+<input type="text" name="mother">
+
+<label>Drop off </label>
+<input type="text" name="phone" required>
+<label>  Booking Date  </label>
+<input type="date" name="dob">
+  
+
+<label>  vehicle type  </label>
+
+<select name="qualification">
+<option>   Auto/ Tempo </option>
+<option>Battery/E-Rickshaw/</option>
+</select>
+<button type="submit">Submit Application</button>
+
+</form>
+
+</div>
+
+<script>
+
+const scriptURL="https://script.google.com/macros/s/AKfycbyTMyosGRCbiOeI6OX1sepijsMkGzCHAASsylLUFWWQlSST4pEde055gER7_M0wbXDV/exec";
+
+const form=document.getElementById("jobForm");
+
+form.addEventListener("submit",e=>{
+
+e.preventDefault();
+
+let formData=new FormData(form);
+
+fetch(scriptURL,{
+method:"POST",
+body:formData
+})
+
+.then(res=>res.text())
+.then(data=>{
+
+alert("Application Submitted Successfully");
+
+form.reset();
+
+})
+.catch(error=>{
+
+alert("Submission Error");
+
+console.log(error);
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
